@@ -175,6 +175,7 @@
 <li><a href="#_whats_going_on_with_package_x">What’s going on with package X?</a></li>
 <li><a href="#_pungi_and_the_compose_configs">Pungi and the Compose Configs</a></li>
 <li><a href="#_the_comps">The Comps</a></li>
+<li><a href="#_composes_and_release">Composes and release</a></li>
 </ul>
 </li>
 </ul>
@@ -225,7 +226,20 @@
 <div class="sect2">
 <h3 id="_1_file_an_issue"><a class="anchor" href="#_1_file_an_issue"></a>1.) File an issue!</h3>
 <div class="paragraph">
-<p>CentOS Stream defects and feature requests are filed under the RHEL project in issues.redhat.com, <a href="https://issues.redhat.com/projects/RHEL">Create an issue against CentOS Stream / RHEL 9</a></p>
+<p>CentOS Stream defects and feature requests are filed under the RHEL project in <a href="https://issues.redhat.com/">issues.redhat.com</a>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://issues.redhat.com/secure/CreateIssueDetails!init.jspa?pid=12332745&amp;issuetype=1&amp;versions=12410187">Create an issue against CentOS Stream / RHEL 8</a></p>
+</li>
+<li>
+<p><a href="https://issues.redhat.com/secure/CreateIssueDetails!init.jspa?pid=12332745&amp;issuetype=1&amp;versions=12412761">Create an issue against CentOS Stream / RHEL 9</a></p>
+</li>
+<li>
+<p><a href="https://issues.redhat.com/secure/CreateIssueDetails!init.jspa?pid=12332745&amp;issuetype=1&amp;versions=12412762">Create an issue against CentOS Stream / RHEL 10</a></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>The <code>Component</code> is the name of the package that you want to patch</p>
@@ -328,11 +342,15 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">c9s-candidate</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">These packages have passed gating based on RHEL CI testing and CentOS Stream CI Testing (coming soon)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">These packages have passed gating based on RHEL CI testing and <a href="https://centos.softwarefactory-project.io/zuul/t/centos/status">CentOS Stream CI Testing</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">c9s-pending</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These packages have passed gating and preverification, these packages are also added to the buildroot when tagged here</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">c9s-pending-signed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">These packages have been signed by the signing automation, and are ready for compose</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">c9s-build</p></td>
@@ -342,8 +360,15 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">c9s-compose</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">New composes will be generated from packages in this tag</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">c9s-released</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Packages which have been released to mirrors are tagged into this once they are visible on the Stream mirrors.</p></td>
+</tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>(Note the c9s part can be also c8s or c10s for CentOS Stream 8 or 10 respectively.)</p>
+</div>
 <div class="paragraph">
 <p>For example, if you see a package that is listed in the <code>-gate</code> tag but not the <code>-pending</code> tag you know that it hasn’t passed its tests yet, and won’t make it into a compose until those are fixed.</p>
 </div>
@@ -367,6 +392,18 @@
 </div>
 <div class="paragraph">
 <p><a href="https://gitlab.com/redhat/centos-stream/release-engineering/comps" class="bare">https://gitlab.com/redhat/centos-stream/release-engineering/comps</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_composes_and_release"><a class="anchor" href="#_composes_and_release"></a>Composes and release</h3>
+<div class="paragraph">
+<p>Packages are built into a compose that happens multiple times a week, triggered by the <a href="https://jenkins.stream.centos.org/view/c9s%20release/">Releng Jenkins</a>. The results can be found on <a href="https://composes.stream.centos.org/">composes.stream.centos.org</a>.</p>
+</div>
+<div class="paragraph">
+<p>How often they happen is defined in a Jenkins config file - see the <a href="https://gitlab.com/redhat/centos-stream/release-engineering/releng-tools/-/blob/master/jenkins/jobs/stream9_composes.jenkins?ref_type=heads#L35">c9s config for example</a>.</p>
+</div>
+<div class="paragraph">
+<p>Once a compose is complete, it gets tested by the <a href="https://testing.stream.centos.org/">testing Jenkins instance</a>. The results of these tests are reviewed manually and then pushed out to mirrors at <a href="https://mirror.stream.centos.org/">mirror.stream.centos.org</a> by Releng. This is currently a manual process and happens usually once a week.</p>
 </div>
 </div>
 </div>
